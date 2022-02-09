@@ -49,7 +49,6 @@ public class InputFrame extends JFrame {
 	
 	public InputFrame(ArrayList<Hotel> hotels) {
 
-//		ArrayList<String> reservation = new ArrayList<String>();		
 		ArrayList<Hotel> hotels1 = new ArrayList<Hotel>();
 		
 		panel = new JPanel();
@@ -102,10 +101,6 @@ public class InputFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				//apothikefsi kratisis
-				//vale lista me tis kratisis j meta emfanizeta me to koumpi pou kato 
-				
 				
 				if(daysField.getText().matches("-?\\d+") || mealsField.getText().matches("-?\\d+"))
 				{
@@ -115,15 +110,6 @@ public class InputFrame extends JFrame {
 						int mealsNumber = Integer.valueOf(mealsField.getText()).intValue();
 						int total = daysNumber*(120+mealsNumber*30);
 						
-						
-// magic tip  reservation.add(listView.getSelectedValue()+ " " + Integer.toString(total));	
-						
-						
-						
-						
-//prostheto se ena neo arraylist<Hotel1> to hotel to opio dimiourgisa mazi 
-// me to sinoliko poso pou tha plirosi o pelatis etsi apothikevete
-//kai mporo na to kalo parakato
 						
 						Hotel hotel1 = new Hotel(listView.getSelectedValue().toString(),total);	
 						hotels1.add(hotel1);
@@ -159,8 +145,6 @@ public class InputFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				//ipologismos kostous
 				int totalCostValue = 0 ;
 
 						for(Hotel hott: hotels1)
