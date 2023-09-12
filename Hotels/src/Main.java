@@ -2,20 +2,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 
 public class Main {
 
 	public static void main(String[] args) {
 		
-		Hotel h1 = new Hotel("Bellevue");
-		Hotel h2 = new Hotel("Hermes");
-		Hotel h3 = new Hotel("CityHotel");
-		Hotel h4 = new Hotel("Panorama");
+		Hotel h1 = new Hotel("Bellevue (200\u20AC)",200);
+		Hotel h3 = new Hotel("CityHotel (500\u20AC)",500);
+		Hotel h2 = new Hotel("Hermes (100\u20AC)",100);
+		Hotel h4 = new Hotel("Panorama (150\u20AC)",150);
 		
 		ArrayList<Hotel> hotels = new ArrayList<Hotel>();
 

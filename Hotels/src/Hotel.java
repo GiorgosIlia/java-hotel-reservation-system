@@ -1,6 +1,4 @@
 import java.io.Serializable;
-import java.util.ArrayList;
-
 
 public class Hotel implements Serializable {
 	
@@ -11,14 +9,6 @@ public class Hotel implements Serializable {
 		super();
 		this.name = name;
 		this.price = price;
-	}
-
-	public Hotel(String name) {
-		this.name = name;
-	}
-	
-	public Hotel() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getName() {
