@@ -1,199 +1,122 @@
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
 
 public class InputFrame extends JFrame {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private JPanel panel;
-	private JPanel diamoniPanel;
-	private JPanel allInclusivePanel;
-	private JPanel buttonPanel;
-	
-	private JLabel diamoniLabel;
-	private JLabel hotelLabel;
-	private JLabel allInclusiveLabel;
-	
-	private JList listView;
-	private DefaultListModel model;
-	
-	private JTextField daysField;
-	private JTextField mealsField;
+    private DefaultListModel<String> model;
+    private JTextField daysField;
+    private JTextField mealsField;
+    private JTextField costField;
 
-	private JButton storeButton;
-	private JButton calculateCostButton;
-	
-	private JTextField costField;
-	
-	public InputFrame(ArrayList<Hotel> hotels) {
+    private static final int BASE_HOTEL_COST = 120;
+    private static final int MEAL_COST = 30;
 
-		ArrayList<Hotel> hotels1 = new ArrayList<Hotel>();
-		
-		panel = new JPanel();
-		diamoniPanel = new JPanel();
-		allInclusivePanel = new JPanel();
-		buttonPanel = new JPanel();	
-		
-		listView = new JList();
-		model = new DefaultListModel();
-        
-		
-		
+    public InputFrame(ArrayList<Hotel> hotels) {
+        model = new DefaultListModel<>();
+        JList<String> listView = new JList<>(model);
 
-		for(int i=0; i<hotels.size(); i++)
-		{	
-			model.addElement(hotels.get(i).getName());
-			
-		}
-		
-		
-		
-		listView.setModel(model);
-		
-		diamoniLabel = new JLabel("Stoixeia Diamonis");
-		hotelLabel = new JLabel("Hotel");
-		allInclusiveLabel = new JLabel("AllInclusive");
-		
-		daysField = new JTextField("Hmeres Diamonis");
-		mealsField = new JTextField("Plithos Geumatwn (1,2,3)");
-		costField = new JTextField("Synoliko Kostos");
-		
-		storeButton = new JButton("Apothikeusi Kratisis");
-		calculateCostButton = new JButton("Ypologismos Kostous");
-		
-		diamoniPanel.setLayout(new BoxLayout(diamoniPanel, BoxLayout.Y_AXIS));
-		diamoniLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		diamoniPanel.add(diamoniLabel);
-		hotelLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		diamoniPanel.add(hotelLabel);
-		diamoniPanel.add(listView);
-		diamoniPanel.add(daysField);
-		diamoniPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		
-		allInclusivePanel.setLayout(new GridLayout(2,0));
-		allInclusivePanel.add(allInclusiveLabel);
-		allInclusivePanel.add(mealsField);
-		allInclusivePanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        JPanel panel = new JPanel();
+        JPanel diamoniPanel = new JPanel();
+        JPanel allInclusivePanel = new JPanel();
+        JPanel buttonPanel = new JPanel();
 
-		storeButton.addActionListener(new ActionListener() {
+        JLabel diamoniLabel = new JLabel("Residency details");
+        JLabel hotelLabel = new JLabel("Hotel");
+        JLabel allInclusiveLabel = new JLabel("AllInclusive");
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				if(daysField.getText().matches("-?\\d+") || mealsField.getText().matches("-?\\d+"))
-				{
-					if(!listView.isSelectionEmpty()) 
-					{
-						int daysNumber = Integer.valueOf(daysField.getText()).intValue();
-						int mealsNumber = Integer.valueOf(mealsField.getText()).intValue();
-						int total = daysNumber*(120+mealsNumber*30);
-						
-						
-						Hotel hotel1 = new Hotel(listView.getSelectedValue().toString(),total);	
-						hotels1.add(hotel1);
-						
-						System.out.println(hotel1.printInfo());
-							
-						
-					}
-					else {
-						System.out.println("select a hotel to proceed");
-					}
-				}
-		
-				
-				try
-				{
-					Integer.parseInt(daysField.getText());
-					Integer.parseInt(mealsField.getText());
-				}
-				catch (NumberFormatException e1) 
-				{
-					System.out.println("GIVE A NUMBER");
-				}
-				
-				
-				
-				
-				
-			}
-			
-		});
-		calculateCostButton.addActionListener(new ActionListener() {
+        daysField = new JTextField("Staying days");
+        mealsField = new JTextField("Number of meals (1,2,3)");
+        costField = new JTextField("Total Cost");
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int totalCostValue = 0 ;
+        JButton storeButton = new JButton("Apothikeusi Kratisis");
+        JButton calculateCostButton = new JButton("Ypologismos Kostous");
 
-						for(Hotel hott: hotels1)
-						{
-							if(hott.getName().contentEquals(listView.getSelectedValue().toString())) {
-								
-								totalCostValue += hott.getPrice();	
+        model.addAll(hotels.stream().map(Hotel::getName).toArray(String[]::new));
+        listView.setModel(model);
 
-							}
-						}
-				
-				System.out.println(totalCostValue);
-				
-				String total = Integer.toString(totalCostValue);	
+        diamoniPanel.setLayout(new BoxLayout(diamoniPanel, BoxLayout.Y_AXIS));
+        diamoniLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        diamoniPanel.add(diamoniLabel);
+        hotelLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        diamoniPanel.add(hotelLabel);
+        diamoniPanel.add(listView);
+        diamoniPanel.add(daysField);
+        diamoniPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
-				costField.setText(listView.getSelectedValue().toString()+": \u20ac" +total);
+        allInclusivePanel.setLayout(new GridLayout(2, 0));
+        allInclusivePanel.add(allInclusiveLabel);
+        allInclusivePanel.add(mealsField);
+        allInclusivePanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
-				
-			}
-			
-		});
-		
-		
-		
-		
-		buttonPanel.setLayout(new GridLayout(2,0));
-		buttonPanel.add(storeButton);
-		buttonPanel.add(calculateCostButton);
-		buttonPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		
-		panel.add(diamoniPanel);
-		panel.add(allInclusivePanel);
-		panel.add(buttonPanel);
-		panel.add(costField);
-		
-		this.setContentPane(panel);
-		
-		this.setVisible(true);
-		this.setSize(200, 320);
-		this.setLocation(200, 0);
-		this.setTitle("Input");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
-	
+        storeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (isValidInput()) {
+                    int total = calculateTotalCost();
+                    Hotel hotel = new Hotel(listView.getSelectedValue(), total);
+                    hotels.add(hotel);
+                    System.out.println(hotel.printInfo());
+                }
+            }
+        });
 
-	class ButtonListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			
-		}
-	}
+        calculateCostButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int totalCost = calculateTotalCostForSelectedHotel(hotels);
+                costField.setText(listView.getSelectedValue() + ": \u20ac" + totalCost);
+            }
+        });
 
+        buttonPanel.setLayout(new GridLayout(2, 0));
+        buttonPanel.add(storeButton);
+        buttonPanel.add(calculateCostButton);
+        buttonPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+
+        panel.add(diamoniPanel);
+        panel.add(allInclusivePanel);
+        panel.add(buttonPanel);
+        panel.add(costField);
+
+        this.setContentPane(panel);
+
+        this.setVisible(true);
+        this.setSize(200, 320);
+        this.setLocation(200, 0);
+        this.setTitle("Input");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    private boolean isValidInput() {
+        try {
+            int days = Integer.parseInt(daysField.getText());
+            int meals = Integer.parseInt(mealsField.getText());
+            return !listView.isSelectionEmpty() && days >= 0 && meals >= 0;
+        } catch (NumberFormatException ex) {
+            System.out.println("Please enter valid numbers for days and meals.");
+            return false;
+        }
+    }
+
+    private int calculateTotalCost() {
+        int days = Integer.parseInt(daysField.getText());
+        int meals = Integer.parseInt(mealsField.getText());
+        return days * (BASE_HOTEL_COST + meals * MEAL_COST);
+    }
+
+    private int calculateTotalCostForSelectedHotel(ArrayList<Hotel> hotels) {
+        String selectedHotel = listView.getSelectedValue();
+        return hotels.stream()
+                .filter(hotel -> hotel.getName().equals(selectedHotel))
+                .mapToInt(Hotel::getPrice)
+                .sum();
+    }
+
+    public static void main(String[] args) {
+        // Sample hotel data
+        ArrayList<Hotel> hotels = new ArrayList<>();
+        hotels.add(new Hotel("Hotel A", 0));
+        hotels.add(new Hotel("Hotel B", 0));
+
+        SwingUtilities.invokeLater(() -> new InputFrame(hotels));
+    }
 }
