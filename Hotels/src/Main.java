@@ -34,15 +34,9 @@ public class Main {
 		catch(IOException i) {
 			i.printStackTrace();
 		}
-//		hotels.(Comparator.reverseOrder());
 		
 		InputFrame inputFrame = new InputFrame(hotels);
 		
 	}
-//for sorting list objects that are not string etc
-//	private static void sort(ArrayList<Hotel> hotels) {
-//        hotels.sort((o1, o2)-> o1.getName().compareTo(o2.getName()));
-//		
-//	}
 
 }
