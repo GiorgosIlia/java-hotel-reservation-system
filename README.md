@@ -41,13 +41,13 @@ The Residency Cost Calculator is a Java Swing application that allows users to i
 2. Compile the Java source code:
 
    ```shell
-   javac InputFrame.java
+   javac Main.java
    ```
 
 3. Run the application:
 
    ```shell
-   java InputFrame
+   java Main
    ```
 
 ## License
